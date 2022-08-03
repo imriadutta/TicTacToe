@@ -10,6 +10,7 @@ public class Game extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
     JButton[] buttons = new JButton[9];
     int buttonClicked = -1;
+    boolean ifWin = false;
 
     public Game() {
 
@@ -32,8 +33,8 @@ public class Game extends JFrame implements ActionListener {
             button.setBackground(Color.WHITE);
             button.setName(i+"");
             panel.add(button);
-            button.addActionListener(this);
             buttons[i] = button;
+            button.addActionListener(this);
         }
         this.add(panel, BorderLayout.CENTER);
     }
@@ -49,7 +50,7 @@ public class Game extends JFrame implements ActionListener {
         }
         else {
             button.setIcon(new ImageIcon("src\\img\\zero.png"));
-            button.setName("0");
+            button.setName("O");
         }
         this.checkWin();
     }
@@ -59,60 +60,87 @@ public class Game extends JFrame implements ActionListener {
         // horizontal wins
         if (buttons[0].getName().equals(buttons[1].getName())) {
             if (buttons[1].getName().equals(buttons[2].getName())) {
-                this.setOption(buttons[0].getName());
+                this.setWinOption(buttons[0].getName());
             }
         }
         if (buttons[3].getName().equals(buttons[4].getName())) {
             if (buttons[4].getName().equals(buttons[5].getName())) {
-                this.setOption(buttons[3].getName());
+                this.setWinOption(buttons[3].getName());
             }
         }
         if (buttons[6].getName().equals(buttons[7].getName())) {
             if (buttons[7].getName().equals(buttons[8].getName())) {
-                this.setOption(buttons[6].getName());
+                this.setWinOption(buttons[6].getName());
             }
         }
 
         // vertical wins
         if (buttons[0].getName().equals(buttons[3].getName())) {
             if (buttons[3].getName().equals(buttons[6].getName())) {
-                this.setOption(buttons[0].getName());
+                this.setWinOption(buttons[0].getName());
             }
         }
         if (buttons[1].getName().equals(buttons[4].getName())) {
             if (buttons[4].getName().equals(buttons[7].getName())) {
-                this.setOption(buttons[1].getName());
+                this.setWinOption(buttons[1].getName());
             }
         }
         if (buttons[2].getName().equals(buttons[5].getName())) {
             if (buttons[5].getName().equals(buttons[8].getName())) {
-                this.setOption(buttons[2].getName());
+                this.setWinOption(buttons[2].getName());
             }
         }
 
         // diagonally wins
         if (buttons[0].getName().equals(buttons[4].getName())) {
             if (buttons[4].getName().equals(buttons[8].getName())) {
-                this.setOption(buttons[0].getName());
+                this.setWinOption(buttons[0].getName());
             }
         }
         if (buttons[2].getName().equals(buttons[4].getName())) {
             if (buttons[4].getName().equals(buttons[6].getName())) {
-                this.setOption(buttons[2].getName());
+                this.setWinOption(buttons[2].getName());
             }
         }
+
+        // check draw
+        this.setDrawOption();
     }
 
-    public void setOption(String player) {
+    public void setWinOption(String player) {
 
         String text = "Player " + player + " wins!\nDo you want to play again?";
         int option = JOptionPane.showConfirmDialog((Component) null, text,"alert", JOptionPane.OK_CANCEL_OPTION);
+        ifWin = true;
 
         if (option == 0) {
             Main.callGame();
         }
         else {
             System.exit(0);
+        }
+    }
+
+    public void setDrawOption() {
+
+        for (int i=0; i<9; i++) {
+            if (!buttons[i].getName().equals("X") && !buttons[i].getName().equals("O")) {
+                int value = Integer.parseInt(buttons[i].getName());
+                if (value >= 0 && value < 9) {
+                    return;
+                }
+            }
+        }
+
+        if (!ifWin) {
+            String text = "Draw game!\nDo you want to play again?";
+            int option = JOptionPane.showConfirmDialog((Component) null, text, "alert", JOptionPane.OK_CANCEL_OPTION);
+
+            if (option == 0) {
+                Main.callGame();
+            } else {
+                System.exit(0);
+            }
         }
     }
 }
