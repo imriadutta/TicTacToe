@@ -110,7 +110,7 @@ public class Game extends JFrame implements ActionListener {
     public void setWinOption(String player) {
 
         String text = "Player " + player + " wins!\nDo you want to play again?";
-        int option = JOptionPane.showConfirmDialog((Component) null, text,"alert", JOptionPane.OK_CANCEL_OPTION);
+        int option = JOptionPane.showConfirmDialog((Component) null, text,"alert", JOptionPane.YES_NO_OPTION);
         ifWin = true;
 
         if (option == 0) {
@@ -134,7 +134,7 @@ public class Game extends JFrame implements ActionListener {
 
         if (!ifWin) {
             String text = "Draw game!\nDo you want to play again?";
-            int option = JOptionPane.showConfirmDialog((Component) null, text, "alert", JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog((Component) null, text, "alert", JOptionPane.YES_NO_OPTION);
 
             if (option == 0) {
                 Main.callGame();
